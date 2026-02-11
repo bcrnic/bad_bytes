@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 import { workContent } from "@/lib/content";
 
 // Project images
-import glamourStudioImg from "@/assets/project-glamour-studio.jpg";
-import elektroProImg from "@/assets/project-elektro-pro.jpg";
-import sparkDigitalImg from "@/assets/project-spark-digital.jpg";
-import urbanResidenceImg from "@/assets/project-urban-residence.jpg";
+import glamourStudioImg from "@/assests/project-glamour-studio.jpg";
+import elektroProImg from "@/assests/project-elektro-pro.jpg";
+import sparkDigitalImg from "@/assests/project-spark-digital.jpg";
+import urbanResidenceImg from "@/assests/project-urban-residence.jpg";
 
 const projectImages: Record<string, string> = {
   "hair-salon": glamourStudioImg,
