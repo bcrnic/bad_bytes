@@ -1,57 +1,74 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Mail, Phone, MapPin, Send, Calendar, Check, Loader2 } from "lucide-react";
 import { CONTACT } from "@/lib/constants";
-import { contactContent } from "@/lib/content";
+import { contactContent, commonContent } from "@/lib/content";
 import { useToast } from "@/hooks/use-toast";
+
+const contactSchema = z.object({
+  name: z.string().min(2, { message: "Ime mora imati bar 2 karaktera" }),
+  email: z.string().email({ message: "Unesite validnu email adresu" }),
+  budget: z.string().optional(),
+  message: z.string().min(10, { message: "Poruka mora imati bar 10 karaktera" }),
+  honeypot: z.string().optional(),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 export const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    budget: "",
-    message: "",
-    honeypot: "", // Anti-spam honeypot field
+
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      budget: "",
+      message: "",
+      honeypot: "",
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (values: ContactFormValues) => {
     // Honeypot check - if filled, it's a bot
-    if (formData.honeypot) {
+    if (values.honeypot) {
       console.log("Bot detected");
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simulate form submission (replace with actual implementation)
-    // Options: Netlify Forms, EmailJS, Formspree
     try {
-      // For Formspree implementation:
-      // const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ name: formData.name, email: formData.email, budget: formData.budget, message: formData.message }),
-      // });
-
       // Simulate delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       toast({
         title: "Poruka poslata!",
         description: "Odgovorićemo vam u roku od 24 sata.",
       });
 
-      setFormData({ name: "", email: "", budget: "", message: "", honeypot: "" });
+      form.reset();
     } catch (error) {
       toast({
         title: "Nešto je pošlo naopako",
@@ -88,7 +105,7 @@ export const ContactSection = () => {
             {/* Contact Info */}
             <div>
               <h3 className="text-xl md:text-2xl font-display font-bold text-foreground mb-6">
-                Kontaktirajte nas
+                {contactContent.contactInfoTitle}
               </h3>
 
               <div className="space-y-4">
@@ -133,7 +150,7 @@ export const ContactSection = () => {
             {/* What Happens Next */}
             <div>
               <h4 className="text-lg font-display font-semibold text-foreground mb-4">
-                Šta sledi?
+                {contactContent.whatNextTitle}
               </h4>
               <div className="space-y-4">
                 {contactContent.processSteps.map((step) => (
@@ -158,111 +175,129 @@ export const ContactSection = () => {
               className="flex items-center gap-3 p-4 rounded-lg border border-primary/50 hover:bg-primary/10 transition-colors group"
             >
               <Calendar className="w-5 h-5 text-primary" />
-              <span className="font-semibold text-foreground">Preferirate poziv? Zakažite besplatnu konsultaciju od 15 min</span>
+              <span className="font-semibold text-foreground">{commonContent.cta.bookConsultation}</span>
             </a>
           </div>
 
           {/* Right Column - Contact Form */}
           <div className="glass-card rounded-2xl p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Honeypot - hidden from users */}
-              <input
-                type="text"
-                name="honeypot"
-                value={formData.honeypot}
-                onChange={handleChange}
-                className="hidden"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-              />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="text-sm font-medium text-foreground mb-2 block">
-                    {contactContent.formLabels.name} *
-                  </label>
-                  <Input 
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Vaše ime" 
-                    required
-                    className="bg-background border-border focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="text-sm font-medium text-foreground mb-2 block">
-                    {contactContent.formLabels.email} *
-                  </label>
-                  <Input 
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="vas@email.com" 
-                    required
-                    className="bg-background border-border focus:border-primary"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="budget" className="text-sm font-medium text-foreground mb-2 block">
-                  {contactContent.formLabels.budget}
-                </label>
-                <select
-                  id="budget"
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleChange}
-                  className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                  {contactContent.budgetOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="text-sm font-medium text-foreground mb-2 block">
-                  {contactContent.formLabels.message} *
-                </label>
-                <Textarea 
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Opišite nam vaš projekat..." 
-                  rows={5}
-                  required
-                  className="bg-background border-border focus:border-primary resize-none"
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                {/* Honeypot - hidden from users */}
+                <FormField
+                  control={form.control}
+                  name="honeypot"
+                  render={({ field }) => (
+                    <FormItem className="hidden">
+                      <FormControl>
+                        <Input {...field} tabIndex={-1} autoComplete="off" />
+                      </FormControl>
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              <Button 
-                type="submit" 
-                size="lg" 
-                disabled={isSubmitting}
-                className="w-full gradient-bg text-primary-foreground hover:opacity-90 hover-glow"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Šaljem...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4 mr-2" />
-                    {contactContent.formLabels.submit}
-                  </>
-                )}
-              </Button>
-            </form>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{contactContent.formLabels.name} *</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Vaše ime" 
+                            className="bg-background border-border focus:border-primary"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{contactContent.formLabels.email} *</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="email"
+                            placeholder="vas@email.com" 
+                            className="bg-background border-border focus:border-primary"
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="budget"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{contactContent.formLabels.budget}</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background border-border focus:border-primary">
+                            <SelectValue placeholder="Izaberite opseg budžeta (opciono)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {contactContent.budgetOptions.filter(opt => opt.value !== "").map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{contactContent.formLabels.message} *</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Opišite nam vaš projekat..." 
+                          rows={5}
+                          className="bg-background border-border focus:border-primary resize-none"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  disabled={isSubmitting}
+                  className="w-full gradient-bg text-primary-foreground hover:opacity-90 hover-glow"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Šaljem...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      {contactContent.formLabels.submit}
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

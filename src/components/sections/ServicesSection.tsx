@@ -1,9 +1,11 @@
+import { ComponentType } from "react";
 import { Code, Palette, Smartphone, Rocket, Shield, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { servicesContent } from "@/lib/content";
+import { servicesContent, commonContent } from "@/lib/content";
+import { useInView } from "@/hooks/use-in-view";
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   "landing-pages": Rocket,
   "business-websites": Code,
   "web-apps": Smartphone,
@@ -12,6 +14,8 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export const ServicesSection = () => {
+  const { ref, inView } = useInView({ threshold: 0.1 });
+
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -36,7 +40,7 @@ export const ServicesSection = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {servicesContent.services.map((service, index) => {
             const Icon = iconMap[service.id] || Code;
             
@@ -46,7 +50,7 @@ export const ServicesSection = () => {
                 className={cn(
                   "glass-card rounded-xl p-6 md:p-8 group hover-glow transition-all duration-300",
                   "hover:border-primary/50 hover:-translate-y-1 flex flex-col",
-                  "opacity-0 animate-slide-up"
+                  inView ? "animate-slide-up" : "opacity-0"
                 )}
                 style={{ animationDelay: `${0.1 * index}s` }}
               >
@@ -87,7 +91,7 @@ export const ServicesSection = () => {
                   onClick={scrollToContact}
                   className="w-full border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary group/btn"
                 >
-                  Zatražite ponudu
+                  {commonContent.cta.getQuote}
                   <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                 </Button>
               </div>

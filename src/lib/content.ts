@@ -164,6 +164,8 @@ export const contactContent = {
     message: "Poruka",
     submit: "Pošaljite poruku",
   },
+  contactInfoTitle: "Kontaktirajte nas",
+  whatNextTitle: "Šta sledi?",
   budgetOptions: [
     { value: "", label: "Izaberite opseg budžeta (opciono)" },
     { value: "under-1k", label: "Do 1.000€" },
@@ -195,12 +197,36 @@ export const contactContent = {
 export const footerContent = {
   tagline: "Transformišemo <span class='text-primary'>bad byte</span> u savršen kod od 2020.",
   navigation: {
+    home: "Početna",
     services: "Usluge",
     work: "Radovi",
+    testimonials: "Utisci",
     contact: "Kontakt",
   },
   legal: {
     privacy: "Politika privatnosti",
     terms: "Uslovi korišćenja",
+  },
+};
+
+// Common Content
+export const commonContent = {
+  cta: {
+    getQuote: "Zatražite ponudu",
+    bookConsultation: "Zakažite besplatnu konsultaciju od 15 min",
+  },
+  navLinks: [
+    { label: "Početna", href: "#" },
+    { label: "Usluge", href: "#services" },
+    { label: "Radovi", href: "#work" },
+    { label: "Utisci", href: "#testimonials" },
+    { label: "Kontakt", href: "#contact" },
+  ],
+  stickyCta: {
+    call: "Pozovi",
+    quote: "Ponuda",
+    whatsappAriaLabel: "Kontaktirajte nas preko WhatsApp-a",
+    callAriaLabel: "Pozovite nas",
+    quoteAriaLabel: "Zatražite ponudu",
   },
 };

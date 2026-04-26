@@ -1,8 +1,11 @@
 import { Star, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { testimonialsContent } from "@/lib/content";
+import { useInView } from "@/hooks/use-in-view";
 
 export const TestimonialsSection = () => {
+  const { ref, inView } = useInView({ threshold: 0.1 });
+
   return (
     <section id="testimonials" className="py-16 md:py-24 relative">
       {/* Background */}
@@ -23,13 +26,13 @@ export const TestimonialsSection = () => {
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {testimonialsContent.testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
               className={cn(
                 "glass-card rounded-xl p-6 md:p-8 relative",
-                "opacity-0 animate-slide-up"
+                inView ? "animate-slide-up" : "opacity-0"
               )}
               style={{ animationDelay: `${0.1 * index}s` }}
             >

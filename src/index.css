@@ -209,6 +209,10 @@
     animation: pixel-flicker 5s linear infinite;
   }
 
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -284,5 +288,17 @@
     box-shadow: 
       0 0 20px hsl(var(--neon-glow) / 0.5),
       0 0 40px hsl(var(--neon-glow) / 0.3);
+  }
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

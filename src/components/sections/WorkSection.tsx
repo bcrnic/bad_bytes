@@ -1,14 +1,13 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { workContent } from "@/lib/content";
+import { useInView } from "@/hooks/use-in-view";
 
 // Project images
-import glamourStudioImg from "@/assests/project-glamour-studio.jpg";
-import elektroProImg from "@/assests/project-elektro-pro.jpg";
-import sparkDigitalImg from "@/assests/project-spark-digital.jpg";
-import urbanResidenceImg from "@/assests/project-urban-residence.jpg";
+import glamourStudioImg from "@/assets/project-glamour-studio.jpg";
+import elektroProImg from "@/assets/project-elektro-pro.jpg";
+import sparkDigitalImg from "@/assets/project-spark-digital.jpg";
+import urbanResidenceImg from "@/assets/project-urban-residence.jpg";
 
 const projectImages: Record<string, string> = {
   "hair-salon": glamourStudioImg,
@@ -25,6 +24,8 @@ const gradients = [
 ];
 
 export const WorkSection = () => {
+  const { ref, inView } = useInView({ threshold: 0.1 });
+
   return (
     <section id="work" className="py-16 md:py-24 relative">
       <div className="container relative z-10 px-4">
@@ -42,14 +43,14 @@ export const WorkSection = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           {workContent.projects.map((project, index) => (
             <div
               key={project.id}
               className={cn(
                 "group relative rounded-2xl overflow-hidden border border-border",
                 "hover:border-primary/50 transition-all duration-500",
-                "opacity-0 animate-slide-up"
+                inView ? "animate-slide-up" : "opacity-0"
               )}
               style={{ animationDelay: `${0.1 * index}s` }}
             >
@@ -65,6 +66,7 @@ export const WorkSection = () => {
                   <img 
                     src={projectImages[project.id]} 
                     alt={project.title}
+                    loading="lazy"
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />

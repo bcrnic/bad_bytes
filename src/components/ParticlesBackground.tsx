@@ -58,11 +58,18 @@ export const ParticlesBackground = () => {
         // Draw particle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(34, 197, 94, ${p.opacity})`;
+        
+        // Use primary color if possible, fallback to emerald-500
+        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+        const colorValue = primaryColor || '145 84% 45%'; // Emerald color numbers
+        
+        ctx.fillStyle = `hsla(${colorValue} / ${p.opacity})`;
         ctx.fill();
       }
 
       // Draw connections
+      const primaryColorValue = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '145 84% 45%';
+
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -74,7 +81,7 @@ export const ParticlesBackground = () => {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(34, 197, 94, ${opacity})`;
+            ctx.strokeStyle = `hsla(${primaryColorValue} / ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

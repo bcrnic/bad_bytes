@@ -1,10 +1,12 @@
 import { Phone, Calendar, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/lib/constants";
+import { commonContent } from "@/lib/content";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const StickyCta = () => {
   const isMobile = useIsMobile();
+  const { stickyCta } = commonContent;
 
   if (!isMobile) return null;
 
@@ -31,10 +33,10 @@ export const StickyCta = () => {
           onClick={handleCallClick}
           size="lg"
           className="flex-1 gradient-bg text-primary-foreground hover:opacity-90 hover-glow h-12"
-          aria-label="Pozovite nas"
+          aria-label={stickyCta.callAriaLabel}
         >
           <Phone className="w-5 h-5 mr-2" />
-          Pozovi
+          {stickyCta.call}
         </Button>
 
         {/* Get a Quote Button */}
@@ -43,10 +45,10 @@ export const StickyCta = () => {
           size="lg"
           variant="outline"
           className="flex-1 border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary h-12"
-          aria-label="Zatražite ponudu"
+          aria-label={stickyCta.quoteAriaLabel}
         >
           <Calendar className="w-5 h-5 mr-2" />
-          Ponuda
+          {stickyCta.quote}
         </Button>
 
         {/* WhatsApp Icon Button */}
@@ -55,7 +57,7 @@ export const StickyCta = () => {
           size="icon"
           variant="outline"
           className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary h-12 w-12 flex-shrink-0"
-          aria-label="Kontaktirajte nas preko WhatsApp-a"
+          aria-label={stickyCta.whatsappAriaLabel}
         >
           <MessageCircle className="w-5 h-5" />
         </Button>

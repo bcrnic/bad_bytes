@@ -1,19 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BadByteLogoHorizontal } from "@/components/BadByteLogo";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const navLinks = [
-  { label: "Početna", href: "#" },
-  { label: "Usluge", href: "#services" },
-  { label: "Radovi", href: "#work" },
-  { label: "Utisci", href: "#testimonials" },
-  { label: "Kontakt", href: "#contact" },
-];
+import { commonContent } from "@/lib/content";
 
 export const Navbar = () => {
+  const { navLinks, cta } = commonContent;
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("#");
+
+  // Track active section using IntersectionObserver
+  useEffect(() => {
+    const sectionIds = navLinks
+      .map((link) => link.href.replace("#", ""))
+      .filter(Boolean); // removes the empty string from "#" (home)
+
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${id}`);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px" } // triggers when section is ~in the middle of the viewport
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    // Reset to home when scrolled to top
+    const handleScroll = () => {
+      if (window.scrollY < 80) setActiveSection("#");
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observers.forEach((obs) => obs.disconnect());
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [navLinks]);
 
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
@@ -31,20 +63,36 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href;
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={cn(
+                    "relative font-medium transition-colors duration-200",
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {link.label}
+                  {/* Active underline indicator */}
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 w-full h-0.5 rounded-full bg-primary transition-all duration-300",
+                      isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
+                    )}
+                  />
+                </a>
+              );
+            })}
             <Button
               onClick={scrollToContact}
               className="gradient-bg text-primary-foreground hover:opacity-90"
             >
-              Zatražite ponudu
+              {cta.getQuote}
             </Button>
           </div>
 
@@ -68,21 +116,28 @@ export const Navbar = () => {
         )}
       >
         <div className="container px-4 py-4 space-y-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="block text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <Button 
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={cn(
+                  "block font-medium py-2 transition-colors",
+                  isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                )}
+                onClick={() => setIsOpen(false)}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+          <Button
             onClick={scrollToContact}
             className="w-full gradient-bg text-primary-foreground hover:opacity-90"
           >
-            Zatražite ponudu
+            {cta.getQuote}
           </Button>
         </div>
       </div>

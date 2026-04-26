@@ -22,13 +22,16 @@ export const Footer = () => {
           {/* Navigation */}
           <nav className="flex items-center gap-4">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">
-              Početna
+              {footerContent.navigation.home}
             </a>
             <a href="#services" className="text-muted-foreground hover:text-primary transition-colors text-sm">
               {footerContent.navigation.services}
             </a>
             <a href="#work" className="text-muted-foreground hover:text-primary transition-colors text-sm">
               {footerContent.navigation.work}
+            </a>
+            <a href="#testimonials" className="text-muted-foreground hover:text-primary transition-colors text-sm">
+              {footerContent.navigation.testimonials}
             </a>
             <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors text-sm">
               {footerContent.navigation.contact}
