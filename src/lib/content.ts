@@ -24,7 +24,7 @@ export const servicesContent = {
       title: "Landing stranice",
       description: "Landing stranice fokusirane na konverziju, dizajnirane da prikupe kontakte i pokrenu akciju. Idealne za kampanje i generisanje leadova.",
       timeline: "1-2 nedelje",
-      priceNote: "Od 500€",
+      priceNote: "Od 300€",
       features: ["Optimizovano za konverziju", "Spremno za A/B testiranje", "Integrisana analitika"],
     },
     {
@@ -32,7 +32,7 @@ export const servicesContent = {
       title: "Poslovni sajtovi",
       description: "Profesionalni višestranični sajtovi koji grade kredibilitet i predstavljaju vaše usluge. SEO optimizovani i mobile-first.",
       timeline: "2-4 nedelje",
-      priceNote: "Od 1.500€",
+      priceNote: "Od 500€",
       features: ["Višestranična struktura", "CMS integracija", "SEO osnova"],
     },
     {
@@ -40,7 +40,7 @@ export const servicesContent = {
       title: "Web aplikacije",
       description: "Custom web aplikacije izgrađene sa React/Next.js i modernim API-jima. Skalabilne, sigurne i prilagođene vašem poslovanju.",
       timeline: "4-12 nedelja",
-      priceNote: "Od 800€",
+      priceNote: "Od 600€",
       features: ["React/Next.js", "API integracija", "Autentifikacija korisnika"],
     },
     {
@@ -48,7 +48,7 @@ export const servicesContent = {
       title: "Održavanje i podrška",
       description: "Održavamo vaš sajt sigurnim, brzim i ažurnim. Redovna ažuriranja, backup i prioritetna podrška kad vam zatreba.",
       timeline: "Kontinuirano",
-      priceNote: "Od 50€/mesečno",
+      priceNote: "Od 30€/mesečno",
       features: ["Sigurnosna ažuriranja", "Monitoring performansi", "Prioritetna podrška"],
     },
   ],
@@ -70,7 +70,7 @@ export const workContent = {
       outcome: "Online zakazivanje sada čini 85% termina, oslobađajući vreme osoblja i značajno smanjujući nedolaske",
       techStack: ["React", "Supabase", "Tailwind", "Twilio"],
       image: "/placeholder.svg",
-      demoUrl: "#",
+      demoUrl: "https://bcrnic.github.io/modni-frizer-vojkan/",
     },
     {
       id: "electrician",
@@ -82,7 +82,7 @@ export const workContent = {
       outcome: "Prva strana Google-a za lokalne pretrage, konstantan priliv novih upita svake nedelje",
       techStack: ["React", "Tailwind", "Formspree", "Vercel"],
       image: "/placeholder.svg",
-      demoUrl: "#",
+      demoUrl: "https://bcrnic.github.io/remielectric/",
     },
     {
       id: "marketing-agency",
@@ -94,7 +94,7 @@ export const workContent = {
       outcome: "Kvalitetniji leadovi, kraći prodajni ciklus i poboljšana percepcija brenda među enterprise klijentima",
       techStack: ["Next.js", "Framer Motion", "Tailwind", "HubSpot"],
       image: "/placeholder.svg",
-      demoUrl: "#",
+      demoUrl: "https://bcrnic.github.io/MiSolutions/",
     },
     {
       id: "real-estate",
@@ -106,7 +106,7 @@ export const workContent = {
       outcome: "Profesionalno online prisustvo pomoglo bržem zatvaranju prodaja, kupci navode sajt kao ključan u odluci",
       techStack: ["React", "Three.js", "Tailwind", "Supabase"],
       image: "/placeholder.svg",
-      demoUrl: "#",
+      demoUrl: "https://bcrnic.github.io/residence/",
     },
   ],
 };

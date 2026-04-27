@@ -1,0 +1,20 @@
+# Netlify build configuration for Vite + React (SPA)
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # VITE_BASE_URL is intentionally NOT set here.
+  # The app falls back to "/" when it is missing, which is what Netlify needs.
+  # If you ever deploy under a sub-path, set VITE_BASE_URL in the Netlify UI.
+  # Secrets like RESEND_API_KEY and TO_EMAIL are configured in the Netlify UI,
+  # not here, so they don't end up in version control.
+
+# SPA fallback so client-side routes (react-router) work on direct loads/refresh.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

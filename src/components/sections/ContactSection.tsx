@@ -50,6 +50,11 @@ export const ContactSection = () => {
     },
   });
 
+  const encode = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+
   const onSubmit = async (values: ContactFormValues) => {
     // Honeypot check - if filled, it's a bot
     if (values.honeypot) {
@@ -60,8 +65,22 @@ export const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "contact",
+          name: values.name,
+          email: values.email,
+          budget: values.budget || "",
+          message: values.message,
+          "bot-field": values.honeypot || "",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Form submission failed: ${response.status}`);
+      }
 
       toast({
         title: "Poruka poslata!",

@@ -64,7 +64,7 @@ export default {
       },
       fontFamily: {
         mono: ["'JetBrains Mono'", "monospace"],
-        display: ["'Manrope'", "system-ui", "sans-serif"],
+        display: ["'Inter'", "system-ui", "sans-serif"],
         sans: ["'Inter'", "system-ui", "-apple-system", "sans-serif"],
       },
       borderRadius: {

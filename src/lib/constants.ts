@@ -2,7 +2,7 @@
 export const CONTACT = {
   phone: "+381643007002",
   phoneDisplay: "+381 64 300 7002",
-  email: "badbyte@gmail.com",
+  email: "badbyte26@gmail.com",
   address: "Novi Sad, Serbia",
   calendlyUrl: "https://calendly.com/badbyte/consultation",
   whatsappUrl: "https://wa.me/381643007002",

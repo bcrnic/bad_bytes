@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { workContent } from "@/lib/content";
 import { useInView } from "@/hooks/use-in-view";
+import { ExternalLink } from "lucide-react";
 
 // Project images
 import glamourStudioImg from "@/assets/project-glamour-studio.jpg";
@@ -48,7 +49,7 @@ export const WorkSection = () => {
             <div
               key={project.id}
               className={cn(
-                "group relative rounded-2xl overflow-hidden border border-border",
+                "group relative rounded-2xl overflow-hidden border border-border flex flex-col h-full",
                 "hover:border-primary/50 transition-all duration-500",
                 inView ? "animate-slide-up" : "opacity-0"
               )}
@@ -74,7 +75,7 @@ export const WorkSection = () => {
               )}
 
               {/* Content */}
-              <div className="relative p-6 md:p-8">
+              <div className="relative p-6 md:p-8 flex flex-col flex-1">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -122,6 +123,20 @@ export const WorkSection = () => {
                   ))}
                 </div>
 
+                {/* Project Links */}
+                {project.demoUrl && project.demoUrl !== "#" && (
+                  <div className="flex flex-wrap gap-3 mt-auto">
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Live Demo
+                    </a>
+                  </div>
+                )}
               </div>
 
               {/* Decorative Elements */}

@@ -36,8 +36,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Load fonts: Manrope for display/headings, JetBrains Mono for code, Inter for body -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load fonts: Inter for body and headings, JetBrains Mono for code -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- JSON-LD Schema.org for Local SEO -->
     <script type="application/ld+json">
@@ -61,8 +61,8 @@
         "latitude": 45.2671,
         "longitude": 19.8335
       },
-      "telephone": "+381601234567",
-      "email": "hello@badbyte.dev",
+      "telephone": "+381643007002",
+      "email": "badbyte26@gmail.com",
       "priceRange": "€€",
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
@@ -70,12 +70,6 @@
         "opens": "09:00",
         "closes": "18:00"
       },
-      "sameAs": [
-        "https://github.com/badbyte",
-        "https://linkedin.com/company/badbyte",
-        "https://instagram.com/badbyte.dev",
-        "https://twitter.com/badbyte_dev"
-      ],
       "areaServed": {
         "@type": "GeoCircle",
         "geoMidpoint": {
@@ -133,6 +127,16 @@
   </head>
 
   <body>
+    <!-- Hidden static form for Netlify Forms detection at build time.
+         The actual React form posts to "/" with these exact field names. -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="budget" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
